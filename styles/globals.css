@@ -264,7 +264,7 @@ select.form-input {
 /* --- Responsive Media Queries --- */
 @media (max-width: 768px) {
   .hero-section {
-    padding-top: 80px;
+    padding-top: 100px;
     margin-bottom: 3rem;
   }
 
