@@ -38,6 +38,12 @@ export default function Home() {
       role: "Generate ideas and develop engaging content for social media including reels, captions, scripts, and posts.",
       responsibilities: ["Create reel ideas, scripts, and captions", "Stay updated with social media trends", "Develop educational and promotional content", "Collaborate with design and video teams"],
       skills: ["Creativity and storytelling ability", "Awareness of social media trends", "Writing and presentation skills"]
+    },
+    {
+      title: "Video Presenter",
+      role: "Host and present engaging video content for promotional and educational purposes.",
+      responsibilities: ["Present videos and reels confidently on camera", "Collaborate with the content creation and media teams", "Deliver scripts clearly and effectively", "Represent the brand professionally in video formats"],
+      skills: ["Confidence and strong presence on camera", "Excellent communication and speaking skills", "Ability to remember and deliver scripts naturally"]
     }
   ];
 
