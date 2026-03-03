@@ -71,6 +71,35 @@ export default function CareersAdminDashboard() {
         window.location.href = '/admin/login';
     };
 
+    const handleExportCSV = () => {
+        const headers = ['Date', 'Candidate Name', 'Role', 'Email', 'Phone', 'Portfolio'];
+        const csvRows = [];
+        csvRows.push(headers.join(','));
+
+        applications.forEach(app => {
+            const date = new Date(app.created_at).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+            const row = [
+                `"${date}"`,
+                `"${app.name.replace(/"/g, '""')}"`,
+                `"${app.position}"`,
+                `"${app.email}"`,
+                `"${app.phone}"`,
+                `"${app.portfolio || ''}"`
+            ];
+            csvRows.push(row.join(','));
+        });
+
+        const csvContent = csvRows.join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+        link.href = url;
+        link.setAttribute('download', 'candidates_list.csv');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     return (
         <>
             <Head><title>Manage Applications | Careers Admin</title></Head>
@@ -84,7 +113,14 @@ export default function CareersAdminDashboard() {
                             <h1 style={{ color: 'var(--text-primary)', fontFamily: "var(--font-serif, 'Lora', serif)", fontSize: '2.2rem', marginBottom: '0.5rem', letterSpacing: '-0.5px' }}>Job Applications</h1>
                             <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem' }}>Manage and review candidate submissions.</p>
                         </div>
-                        <button onClick={handleLogout} className="glass-btn" style={{ color: '#d32f2f', border: '1px solid #ffcdd2', background: '#ffebee', padding: '10px 20px' }}>Log Out</button>
+                        <div style={{ display: 'flex', gap: '15px' }}>
+                            <button onClick={handleExportCSV} className="glass-btn" style={{ color: '#155724', border: '1px solid #c3e6cb', background: '#d4edda', padding: '10px 20px', fontWeight: '500', cursor: 'pointer', borderRadius: '6px' }}>
+                                Export List
+                            </button>
+                            <button onClick={handleLogout} className="glass-btn" style={{ color: '#d32f2f', border: '1px solid #ffcdd2', background: '#ffebee', padding: '10px 20px', fontWeight: '500', cursor: 'pointer', borderRadius: '6px' }}>
+                                Log Out
+                            </button>
+                        </div>
                     </div>
 
                     <div className="glass-card" style={{ padding: '0', overflow: 'hidden', backgroundColor: '#ffffff', boxShadow: '0 8px 30px rgba(0,0,0,0.04)', border: '1px solid var(--card-border)' }}>
