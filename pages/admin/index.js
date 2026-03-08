@@ -66,13 +66,37 @@ export default function CareersAdminDashboard() {
         }
     };
 
+    const handleToggleInterview = async (id, currentStatus) => {
+        const token = localStorage.getItem('access_token');
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/careers/admin/${id}/`, {
+                method: 'PATCH',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ interviewed: !currentStatus })
+            });
+
+            if (res.ok) {
+                setApplications(applications.map(app =>
+                    app.id === id ? { ...app, interviewed: !currentStatus } : app
+                ));
+            } else {
+                alert('Failed to update interview status.');
+            }
+        } catch (err) {
+            alert('Error connecting to server.');
+        }
+    };
+
     const handleLogout = () => {
         localStorage.removeItem('access_token');
         window.location.href = '/admin/login';
     };
 
     const handleExportCSV = () => {
-        const headers = ['Date', 'Candidate Name', 'Role', 'Email', 'Phone', 'Portfolio'];
+        const headers = ['Date', 'Candidate Name', 'Role', 'Email', 'Phone', 'Portfolio', 'Interviewed'];
         const csvRows = [];
         csvRows.push(headers.join(','));
 
@@ -84,7 +108,8 @@ export default function CareersAdminDashboard() {
                 `"${app.position}"`,
                 `"${app.email}"`,
                 `"${app.phone}"`,
-                `"${app.portfolio || ''}"`
+                `"${app.portfolio || ''}"`,
+                `"${app.interviewed ? 'Yes' : 'No'}"`
             ];
             csvRows.push(row.join(','));
         });
@@ -150,6 +175,7 @@ export default function CareersAdminDashboard() {
                                             <th style={{ padding: '16px 24px', fontWeight: '600' }}>Role</th>
                                             <th style={{ padding: '16px 24px', fontWeight: '600' }}>Contact</th>
                                             <th style={{ padding: '16px 24px', fontWeight: '600' }}>Portfolio</th>
+                                            <th style={{ padding: '16px 24px', fontWeight: '600', textAlign: 'center' }}>Interviewed</th>
                                             <th style={{ padding: '16px 24px', fontWeight: '600', textAlign: 'right' }}>Actions</th>
                                         </tr>
                                     </thead>
@@ -175,6 +201,16 @@ export default function CareersAdminDashboard() {
                                                     ) : (
                                                         <span style={{ fontSize: '0.9rem', color: '#9e9e9e', fontStyle: 'italic' }}>Not provided</span>
                                                     )}
+                                                </td>
+                                                <td style={{ padding: '16px 24px', textAlign: 'center' }}>
+                                                    <label style={{ display: 'inline-flex', alignItems: 'center', cursor: 'pointer' }}>
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={app.interviewed || false}
+                                                            onChange={() => handleToggleInterview(app.id, app.interviewed)}
+                                                            style={{ cursor: 'pointer', transform: 'scale(1.2)' }}
+                                                        />
+                                                    </label>
                                                 </td>
                                                 <td style={{ padding: '16px 24px', textAlign: 'right' }}>
                                                     <button
