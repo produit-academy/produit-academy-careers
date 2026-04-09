@@ -79,6 +79,22 @@
     color: #888;
 }
 
+.socialIcons {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 20px;
+}
+
+.socialIcons a {
+    opacity: 0.6;
+    transition: opacity 0.3s ease, transform 0.2s ease;
+}
+
+.socialIcons a:hover {
+    opacity: 1;
+    transform: translateY(-2px);
+}
+
 @media screen and (max-width: 900px) {
     .footerGrid {
         grid-template-columns: 1fr 1fr;

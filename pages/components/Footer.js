@@ -1,12 +1,19 @@
 import styles from './Footer.module.css';
+import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Footer() {
     return (
         <footer className={styles.footer}>
             <div className={`container ${styles.footerGrid}`}>
                 <div className={styles.footerColumn}>
-                    <h2 className={styles.logoText}>Produit<br />Academy</h2>
-                    <p style={{ color: 'var(--text-secondary)', marginTop: '10px' }}>Building the future of creative education and academic excellence.</p>
+                    <h2 className={styles.logoText}>Produit Academy<br />Careers</h2>
+                    <div className={styles.socialIcons}>
+                        <Link href="https://facebook.com" passHref><Image src="/icons/facebook.svg" alt="Facebook" width={24} height={24} /></Link>
+                        <Link href="https://twitter.com" passHref><Image src="/icons/twitter.svg" alt="Twitter" width={24} height={24} /></Link>
+                        <Link href="https://linkedin.com" passHref><Image src="/icons/linkedin.svg" alt="LinkedIn" width={24} height={24} /></Link>
+                        <Link href="https://www.instagram.com/produit.academy/" passHref><Image src="/icons/instagram.svg" alt="Instagram" width={24} height={24} /></Link>
+                    </div>
                 </div>
 
                 <div className={styles.footerColumn}>

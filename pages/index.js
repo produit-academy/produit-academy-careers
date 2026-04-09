@@ -44,6 +44,18 @@ export default function Home() {
       role: "Host and present engaging video content for promotional and educational purposes.",
       responsibilities: ["Present videos and reels confidently on camera", "Collaborate with the content creation and media teams", "Deliver scripts clearly and effectively", "Represent the brand professionally in video formats"],
       skills: ["Confidence and strong presence on camera", "Excellent communication and speaking skills", "Ability to remember and deliver scripts naturally"]
+    },
+    {
+      title: "Teacher",
+      role: "Educate and guide students through comprehensive coursework and interactive sessions.",
+      responsibilities: ["Deliver engaging lectures and tutorials", "Prepare course materials and assessments", "Evaluate student progress and provide feedback", "Stay updated with curriculum developments and industry standards"],
+      skills: ["Strong subject matter expertise", "Excellent communication and teaching skills", "Patience and ability to inspire students"]
+    },
+    {
+      title: "Mentor",
+      role: "Provide one-on-one guidance, support, and insights to help students achieve their career goals.",
+      responsibilities: ["Conduct regular mentorship meetings", "Provide actionable career and technical advice", "Motivate and support students through challenges"],
+      skills: ["Industry experience in the relevant field", "Empathy and strong interpersonal skills", "Ability to give constructive feedback"]
     }
   ];
 
@@ -83,7 +95,7 @@ export default function Home() {
             Build Your Creative Career
           </h1>
           <p className="hero-subtitle">
-            Join our growing team in design, media, video production, and content creation. Explore opportunities to learn, contribute, and grow in a professional environment.
+            Join our growing team in teaching, mentoring, design, media, video production, and content creation. Explore opportunities to learn, contribute, and grow in a professional environment.
           </p>
         </section>
 
@@ -95,7 +107,7 @@ export default function Home() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
             {positions.map((job, idx) => (
               <div key={idx} className="glass-card card-animate" style={{ padding: '2rem', animationDelay: `${idx * 0.15}s`, display: 'flex', flexDirection: 'column' }}>
-                <h3 style={{ color: 'var(--accent-green)', marginBottom: '10px', fontSize: '1.4rem' }}>{job.title}</h3>
+                <h3 style={{ color: 'var(--accent-green)', marginBottom: '10px', fontSize: '1.5rem', fontWeight: 600, fontFamily: 'var(--font-display)' }}>{job.title}</h3>
                 <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', lineHeight: '1.6', marginBottom: '1.5rem', flexGrow: 1 }}>{job.role}</p>
 
                 <hr style={{ border: 'none', borderTop: '1px solid var(--card-border)', marginBottom: '1rem' }} />
