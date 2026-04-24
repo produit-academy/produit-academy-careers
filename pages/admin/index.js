@@ -197,7 +197,11 @@ export default function CareersAdminDashboard() {
                                                 </td>
                                                 <td style={{ padding: '16px 24px' }}>
                                                     {app.portfolio ? (
-                                                        <a href={app.portfolio} target="_blank" rel="noreferrer" style={{ color: 'var(--accent-green)', fontWeight: '600', fontSize: '0.9rem', textDecoration: 'none' }}>View Link &rarr;</a>
+                                                        app.portfolio.startsWith('http') || app.portfolio.startsWith('www') ? (
+                                                            <a href={app.portfolio.startsWith('http') ? app.portfolio : `http://${app.portfolio}`} target="_blank" rel="noreferrer" style={{ color: 'var(--accent-green)', fontWeight: '600', fontSize: '0.9rem', textDecoration: 'none' }}>View Link &rarr;</a>
+                                                        ) : (
+                                                            <span style={{ fontSize: '0.9rem', color: 'var(--text-primary)' }}>{app.portfolio}</span>
+                                                        )
                                                     ) : (
                                                         <span style={{ fontSize: '0.9rem', color: '#9e9e9e', fontStyle: 'italic' }}>Not provided</span>
                                                     )}

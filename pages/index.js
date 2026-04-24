@@ -162,7 +162,7 @@ export default function Home() {
               </div>
 
               <div className="form-row">
-                <input type="url" name="portfolio" placeholder="Portfolio / Drive Link (Optional)" value={formData.portfolio} onChange={handleChange} className="form-input" />
+                <input type="text" name="portfolio" placeholder="Portfolio / Drive Link / Description (Type 'NA' if none) *" required value={formData.portfolio} onChange={handleChange} className="form-input" />
               </div>
 
               <label style={{ display: 'flex', gap: '10px', fontSize: '0.9rem', alignItems: 'flex-start', marginTop: '10px', color: 'var(--text-secondary)' }}>
