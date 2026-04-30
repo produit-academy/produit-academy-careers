@@ -4,7 +4,10 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 
 export default function Home() {
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '', position: '', portfolio: '', declaration: false });
+  const [formData, setFormData] = useState({ 
+    name: '', email: '', phone: '', position: '', portfolio: '', declaration: false,
+    preferred_courses: '', experience: '', education: '', current_status: '', academy_details: '' 
+  });
   const [status, setStatus] = useState(null);
   const [expandedJob, setExpandedJob] = useState(null);
 
@@ -75,7 +78,10 @@ export default function Home() {
       });
       if (res.ok) {
         setStatus('success');
-        setFormData({ name: '', email: '', phone: '', position: '', portfolio: '', declaration: false });
+        setFormData({ 
+          name: '', email: '', phone: '', position: '', portfolio: '', declaration: false,
+          preferred_courses: '', experience: '', education: '', current_status: '', academy_details: '' 
+        });
       } else {
         setStatus('error');
       }
@@ -164,6 +170,33 @@ export default function Home() {
               <div className="form-row">
                 <input type="text" name="portfolio" placeholder="Portfolio / Drive Link / Description (Type 'NA' if none) *" required value={formData.portfolio} onChange={handleChange} className="form-input" />
               </div>
+
+              {formData.position === 'Teacher' && (
+                <div style={{ marginBottom: '1.5rem', padding: '1.5rem', background: 'rgba(255,255,255,0.03)', borderRadius: '12px', border: '1px solid var(--card-border)' }}>
+                  <h4 style={{ marginBottom: '1rem', color: 'var(--accent-green)', fontSize: '1.1rem' }}>Teacher Qualifications</h4>
+                  
+                  <div className="form-row" style={{ marginBottom: '1rem' }}>
+                    <input type="text" name="preferred_courses" placeholder="Preferred Courses to Teach (comma separated) *" required value={formData.preferred_courses} onChange={handleChange} className="form-input" />
+                  </div>
+                  
+                  <div className="form-grid" style={{ marginBottom: '1rem' }}>
+                    <input type="text" name="experience" placeholder="Years of Experience *" required value={formData.experience} onChange={handleChange} className="form-input" />
+                    <input type="text" name="education" placeholder="Highest Education Qualification *" required value={formData.education} onChange={handleChange} className="form-input" />
+                  </div>
+
+                  <div className="form-grid">
+                    <select name="current_status" required value={formData.current_status} onChange={handleChange} className="form-input" style={{ color: formData.current_status ? 'var(--text-primary)' : 'var(--text-secondary)' }}>
+                      <option value="" disabled>Current Status *</option>
+                      <option value="studying">Currently Studying</option>
+                      <option value="passed_out">Passed Out / Working</option>
+                    </select>
+
+                    {formData.current_status === 'studying' && (
+                      <input type="text" name="academy_details" placeholder="Current College / Academy Details *" required value={formData.academy_details} onChange={handleChange} className="form-input" />
+                    )}
+                  </div>
+                </div>
+              )}
 
               <label style={{ display: 'flex', gap: '10px', fontSize: '0.9rem', alignItems: 'flex-start', marginTop: '10px', color: 'var(--text-secondary)' }}>
                 <input type="checkbox" name="declaration" required checked={formData.declaration} onChange={handleChange} style={{ marginTop: '4px' }} />
