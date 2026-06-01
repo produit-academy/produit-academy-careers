@@ -9,6 +9,7 @@ export default function Home() {
     preferred_courses: '', experience: '', education: '', current_status: '', academy_details: '' 
   });
   const [status, setStatus] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
   const [expandedJob, setExpandedJob] = useState(null);
 
   const positions = [
@@ -70,6 +71,7 @@ export default function Home() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus('submitting');
+    setErrorMessage(null); // Clear previous error
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/careers/apply/`, {
         method: 'POST',
@@ -83,9 +85,21 @@ export default function Home() {
           preferred_courses: '', experience: '', education: '', current_status: '', academy_details: '' 
         });
       } else {
+        const errorData = await res.text();
+        console.error("Backend validation error:", errorData);
+        let errorMsg = "Something went wrong. Please try again.";
+        try {
+            const parsed = JSON.parse(errorData);
+            errorMsg = Object.values(parsed).map(errs => Array.isArray(errs) ? errs.join(" ") : errs).join(" ");
+        } catch (e) {
+            // keep default
+        }
+        setErrorMessage(errorMsg);
         setStatus('error');
       }
     } catch (error) {
+      console.error("Fetch error:", error);
+      setErrorMessage(error.message || "Network error. Please check your connection.");
       setStatus('error');
     }
   };
@@ -151,7 +165,7 @@ export default function Home() {
             <h2 className="section-title" style={{ marginBottom: '2rem' }}>Submit Your Application</h2>
 
             {status === 'success' && <div style={{ background: 'var(--accent-green-light)', color: 'var(--accent-green-dark)', padding: '1rem', borderRadius: '8px', marginBottom: '1.5rem', textAlign: 'center' }}>Application submitted successfully! We will contact you soon.</div>}
-            {status === 'error' && <div style={{ background: '#ffeeba', color: '#856404', padding: '1rem', borderRadius: '8px', marginBottom: '1.5rem', textAlign: 'center' }}>Something went wrong. Please try again.</div>}
+            {status === 'error' && <div style={{ background: '#ffeeba', color: '#856404', padding: '1rem', borderRadius: '8px', marginBottom: '1.5rem', textAlign: 'center' }}>{errorMessage || "Something went wrong. Please try again."}</div>}
 
             <form onSubmit={handleSubmit}>
               <div className="form-grid">
