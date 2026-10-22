@@ -1,13 +1,15 @@
 // pages/index.js
 import { useState } from 'react';
-import Header from './components/Header';
-import Footer from './components/Footer';
+import Head from 'next/head';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 export default function Home() {
   const [formData, setFormData] = useState({ 
     name: '', email: '', phone: '', position: '', portfolio: '', declaration: false,
     preferred_courses: '', experience: '', education: '', current_status: '', academy_details: '' 
   });
+  const [honeypot, setHoneypot] = useState('');
   const [status, setStatus] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [expandedJob, setExpandedJob] = useState(null);
@@ -70,10 +72,27 @@ export default function Home() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage(null);
+
+    // Bot protection: honeypot check
+    if (honeypot) {
+      console.warn('Bot blocked via honeypot');
+      setStatus('success');
+      return;
+    }
+
+    // Client phone validation
+    const phoneClean = (formData.phone || '').trim();
+    if (!/^[+]?[0-9\s-]{10,15}$/.test(phoneClean)) {
+      setErrorMessage('Please enter a valid 10 to 15 digit mobile phone number.');
+      setStatus('error');
+      return;
+    }
+
     setStatus('submitting');
-    setErrorMessage(null); // Clear previous error
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/careers/apply/`, {
+      const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000';
+      const res = await fetch(`${apiBase}/careers/apply/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -87,7 +106,7 @@ export default function Home() {
       } else {
         const errorData = await res.text();
         console.error("Backend validation error:", errorData);
-        let errorMsg = "Something went wrong. Please try again.";
+        let errorMsg = "Something went wrong. Please check your submission details.";
         try {
             const parsed = JSON.parse(errorData);
             errorMsg = Object.values(parsed).map(errs => Array.isArray(errs) ? errs.join(" ") : errs).join(" ");
@@ -106,6 +125,27 @@ export default function Home() {
 
   return (
     <>
+      <Head>
+        <title>Careers at Produit Academy | Join Our Academic & Creative Faculty</title>
+        <meta
+          name="description"
+          content="Apply to join Produit Academy. Open positions for Subject Teachers, 1:1 Academic Mentors, Graphic Designers, Video Editors, and Content Creators in Kollam, Kerala."
+        />
+        <link rel="canonical" href="https://careers.produitacademy.com" />
+        <meta property="og:title" content="Careers at Produit Academy - Faculty & Creative Positions" />
+        <meta
+          property="og:description"
+          content="Join Produit Academy as an educator, mentor, or creative team member. Build the future of personal tuition."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://careers.produitacademy.com" />
+        <meta property="og:image" content="https://careers.produitacademy.com/logo.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Careers at Produit Academy | Open Faculty Roles" />
+        <meta name="twitter:description" content="Apply for teaching, mentorship, design, and media roles at Produit Academy." />
+        <meta name="twitter:image" content="https://careers.produitacademy.com/logo.png" />
+      </Head>
+
       <Header />
       <main className="main-content">
 
@@ -168,6 +208,18 @@ export default function Home() {
             {status === 'error' && <div style={{ background: '#ffeeba', color: '#856404', padding: '1rem', borderRadius: '8px', marginBottom: '1.5rem', textAlign: 'center' }}>{errorMessage || "Something went wrong. Please try again."}</div>}
 
             <form onSubmit={handleSubmit}>
+              {/* Honeypot field for bot protection */}
+              <div style={{ display: 'none' }} aria-hidden="true">
+                <input
+                  type="text"
+                  name="website_source"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                  tabIndex="-1"
+                  autoComplete="off"
+                />
+              </div>
+
               <div className="form-grid">
                 <input type="text" name="name" placeholder="Full Name *" required value={formData.name} onChange={handleChange} className="form-input" />
                 <input type="email" name="email" placeholder="Email Address *" required value={formData.email} onChange={handleChange} className="form-input" />

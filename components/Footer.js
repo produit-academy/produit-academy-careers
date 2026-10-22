@@ -20,6 +20,16 @@ export default function Footer() {
                     <h3 className={styles.footerHeading}>Our Platforms</h3>
                     <ul className={styles.footerLinks}>
                         <li>
+                            <a href="https://produitacademy.com" target="_blank" rel="noreferrer">
+                                Main Website (1:1 Tuition)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://classes.produitacademy.com" target="_blank" rel="noreferrer">
+                                Classes Portal (Student Tuition)
+                            </a>
+                        </li>
+                        <li>
                             <a href="https://gate.produitacademy.com" target="_blank" rel="noreferrer">
                                 GATE Portal (GATE Preparation)
                             </a>
@@ -28,17 +38,26 @@ export default function Footer() {
                 </div>
 
                 <div className={styles.footerColumn}>
+                    <h3 className={styles.footerHeading}>Legal</h3>
+                    <ul className={styles.footerLinks}>
+                        <li><Link href="/privacy-policy">Privacy Policy</Link></li>
+                        <li><Link href="/terms-and-conditions">Terms & Conditions</Link></li>
+                    </ul>
+                </div>
+
+                <div className={styles.footerColumn}>
                     <h3 className={styles.footerHeading}>Contact Us</h3>
                     <ul className={styles.footerLinks}>
                         <li><a href="mailto:produitacademy@gmail.com">produitacademy@gmail.com</a></li>
                         <li><a href="tel:8139805996">+91 8139 805 996</a></li>
+                        <li><span>Kollam, Kerala, India</span></li>
                     </ul>
                 </div>
             </div>
 
             <div className={styles.footerBottom}>
                 <div className={`container ${styles.footerBottomContainer}`}>
-                    <p>Copyright @ 2025 Produit Academy. All rights reserved.</p>
+                    <p>Copyright © 2026 Produit Academy. All rights reserved.</p>
                 </div>
             </div>
         </footer>
